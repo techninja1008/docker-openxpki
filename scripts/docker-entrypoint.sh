@@ -7,7 +7,7 @@ function fixPermissions {
     chmod 0700 /etc/openxpki/customconfig.sh
     chown root:root /etc/openxpki/customconfig.sh
   fi
-  
+
   mkdir -p /var/log/apache2 && chown -R www-data:www-data /var/log/apache2 && chmod 0775 /var/log/apache2 && chmod 0664 /var/log/apache2/*
   mkdir -p /var/log/openxpki && chown -R openxpki:www-data /var/log/openxpki && chmod 0775 /var/log/openxpki && chmod 0664 /var/log/openxpki/*
 
@@ -64,15 +64,21 @@ function create_config {
      echo "Found custom configuration, securing and executing it."
      chown root:root /etc/openxpki/customconfig.sh
      chmod 700 /etc/openxpki/customconfig.sh
-     /etc/openxpki/customconfig.sh
+     sh /etc/openxpki/customconfig.sh
+  elif [ -f "/usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh.gz" ]; then
+    echo "Found no custom customconfig.sh - using default compressed sampleconfig.sh.gz from /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh"
+    gunzip < /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh.gz > /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh
+    chown root:root /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh
+    chmod 700 /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh
+    sh /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh
   elif [ -f "/usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh" ]; then
     echo "Found no custom customconfig.sh - using default sampleconfig.sh from /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh"
-    /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh
+    sh /usr/share/doc/libopenxpki-perl/examples/sampleconfig.sh
   else
     echo "Found no sampleconfig.sh and no customconfig.sh"
     exit 1
   fi
-  
+
 }
 
 function create_db {
@@ -85,7 +91,7 @@ function create_db {
   APP_DB_NAME=${APP_DB_NAME:-openxpki}
   APP_DB_USER=${APP_DB_USER:-openxpki}
   APP_DB_PASS=${APP_DB_PASS:-openxpki}
- 
+
   echo "CREATE DATABASE ${APP_DB_NAME} CHARSET utf8;" > /tmp/create_db.sh
   echo "CREATE USER '${APP_DB_USER}'@'%' IDENTIFIED BY '${APP_DB_PASS}';" >> /tmp/create_db.sh
   echo "GRANT ALL ON ${APP_DB_NAME}.* TO '${APP_DB_NAME}'@'%';" >> /tmp/create_db.sh
@@ -94,7 +100,7 @@ function create_db {
   cat /tmp/create_db.sh | mysql -u root -p${APP_DB_ROOT_PASS} -h ${APP_DB_HOST} -P ${APP_DB_PORT}
 
   rm /tmp/create_db.sh
-  
+
 }
 
 function init_db {
