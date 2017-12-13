@@ -9,7 +9,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=my-super-secret-password
   web:
-    image larskanis/openxpki
+    image: larskanis/openxpki
 
     # Uncomment the following lines to build your own image
 #    build:
