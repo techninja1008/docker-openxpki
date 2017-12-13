@@ -30,6 +30,8 @@ services:
       - ./logs/apache2:/var/log/apache2
       - ./logs/openxpki:/var/log/openxpki
     environment:
+      - APP_DB_HOST=mysql
+      - APP_DB_PORT=3306
       - APP_DB_NAME=openxpki
       - APP_DB_USER=openxpki
       - APP_DB_PASS=openxpki
