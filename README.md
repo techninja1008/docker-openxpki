@@ -1,8 +1,8 @@
 # OpenXPKI Docker Template
 
-This repository contains a template for running OpenXPKI with the official debian packages. 
-We also provide a docker-compose.yml for easy startup and management. 
-This container is supposed to run behind an nginx reverse-proxy to provide https, 
+This repository contains a template for running OpenXPKI with the official debian packages.
+We also provide a docker-compose.yml for easy startup and management.
+This container is supposed to run behind an nginx reverse-proxy to provide https,
 therefore we provide a tested nginx configuration example.
 
 This container is designed to run with MySql but can be changed to use other database systems.
@@ -14,15 +14,16 @@ This docker-compose contains default credentials for the database, that can be c
 When starting the containers with docker-compose up, a database container is created and linked to openxpki as mysql.
 The OpenXPKI sampleconfig.sh will be called after the database has been created and initialized.
 
-    git clone https://github.com/DimeOne/docker-openxpki.git
+    git clone https://github.com/larskanis/docker-openxpki.git
     cd docker-openxpki
     docker-compose up -d && docker-compose logs -f
-    
-Start browser and navigate to http://127.0.0.1:8080/openxpki
+
+Start the browser and navigate to http://127.0.0.1:8080/openxpki .
+Login as "Operator" and use initial username "raop" and password "openxpki".
 
 # Userdata
 
-All userdata is either stored in the MySql database or as files in the openxpki configuration. When using the docker-compose.yml, 
+All userdata is either stored in the MySql database or as files in the openxpki configuration. When using the docker-compose.yml,
 all folders, including configuration, logs and MySql database files are stored as folders in the same directory as the docker-compose.yml.
 
   - mysql_data
