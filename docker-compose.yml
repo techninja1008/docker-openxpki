@@ -9,20 +9,20 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=my-super-secret-password
   web:
-    image: larskanis/openxpki
+#    image: larskanis/openxpki
 
     # Uncomment the following lines to build your own image
-#    build:
-#      context: ./
-#      args:
-#        - http_proxy=$http_proxy
-#        - https_proxy=$https_proxy
+    build:
+      context: ./
+      args:
+        - http_proxy=$http_proxy
+        - https_proxy=$https_proxy
 
     dns: 8.8.8.8
     hostname: pki.example.org
     restart: always
     ports:
-      - "127.0.0.1:8080:80"
+      - "8080:80"
     links:
       - db:mysql
     volumes:
